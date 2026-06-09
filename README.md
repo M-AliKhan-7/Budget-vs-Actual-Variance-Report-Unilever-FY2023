@@ -1,12 +1,13 @@
 # Budget vs Actual Variance Report — Unilever FY2023
 
 ## Project Overview
-End-to-end financial variance analysis of Unilever PLC (LSE: ULVR.L) FY2023 P&L performance against a proxy budget constructed from published guidance. Built as part of a financial data analysis portfolio.
+This project constructs a proxy Budget vs Actual (BAT) variance analysis for Unilever PLC (LSE: ULVR.L) for FY2023. Since listed companies do not publish internal budgets, the budget was constructed from Unilever's published FY2023 guidance (Feb 2023 results call), adjusted for underlying sales growth, FX headwinds, and portfolio disposals.
+Key finding: EBITDA missed budget by -16.8% despite favourable cost variances. This was a top-line revenue problem — not an operational efficiency failure. A €5,720m revenue shortfall (driven by FX headwinds, volume softness, and portfolio disposals) overwhelmed strong cost discipline across Cost of Revenue and SG&A.
 
 ## Tools Used
 - **Python** (pandas, matplotlib, seaborn, yfinance) — Jupyter Notebook
-- **Excel** — Financial model with conditional formatting *(Phase 4 — in progress)*
-- **Power BI** — Interactive dashboard *(Phase 5 — planned)*
+- **Excel** — Financial model with conditional formatting *
+- **Google Looker Studio** — Interactive dashboard *
 
 ## Project Structure
 ```
@@ -26,18 +27,41 @@ budget-vs-actual-unilever/
 │
 ├── excel/
 │   └── Unilever Financial Analysis.xlsx            # Excel financial model (Phase 4)
+│model
 │
 └── README.md
 ```
 
 ## Phases
-| Phase | Description | Status |
-|-------|-------------|--------|
-| 1 | Data setup — yfinance pull, budget construction | ✅ Complete |
-| 2 | Variance calculations — Abs, %, F/A flags | ✅ Complete |
-| 3 | Python visualisations — bar chart, waterfall, heatmap | ✅ Complete |
-| 4 | Excel financial model | 🔄 In Progress |
-| 5 | Power BI dashboard | 🔜 Planned |
+Phase 1 — Data Setup ✅
+
+Pulled real income statement data via yfinance 1.2.1
+Extracted 7 P&L line items: Total Revenue, Cost Of Revenue, Gross Profit, SG&A, Operating Income, EBITDA, Net Income
+Converted figures to €millions
+
+Phase 2 — Variance Calculations ✅
+
+Constructed proxy budget from published FY2023 guidance
+Calculated Variance_Abs, Variance_Pct, and F/A flags
+Applied correct sign convention: cost lines flip the favourable/adverse logic
+
+Phase 3 — Python Visualisations ✅
+
+Grouped bar chart: Budget vs Actual across all P&L lines
+Variance waterfall chart: F/A colour-coded (green = favourable, red = adverse)
+Heatmap: variance intensity with corrected sign convention for cost lines
+
+Phase 4 — Excel Model ✅
+
+Three-sheet workbook: Data, Model (formatted P&L), Dashboard
+KPI callout boxes, clustered bar chart, conditional formatting
+
+Phase 5 — Looker Studio Dashboard ✅
+
+Interactive single-page dashboard
+KPI scorecards (Revenue, EBITDA, Net Income vs Budget)
+Clustered bar chart and variance chart
+Live dashboard: https://datastudio.google.com/reporting/2f33d0e9-acea-4d0f-a02b-e28b07d8d392
 
 ## Key Findings
 - Unilever FY2023 revenue missed budget by **€5,720m (−10.0%)** driven by FX headwinds, volume softness, and portfolio disposals
@@ -46,7 +70,13 @@ budget-vs-actual-unilever/
 - Conclusion: **This was a top-line problem, not an efficiency problem**
 
 ## Budget Methodology
-Unilever does not publish internal budgets. The proxy budget was constructed from FY2023 guidance issued on the February 2023 results call, applying guided USG growth, FX headwinds, and disposal impacts to FY2022 actuals.
+This is a proxy budget, not Unilever's actual internal plan. The budget was constructed from:
+
+Revenue: 2022 actual × 1.04 underlying sales growth × 0.97 FX headwind × 0.97 portfolio disposals
+Cost lines: Derived from 2022 cost ratios applied to revised revenue guidance
+Margins: Calibrated against Unilever's published FY2023 margin guidance
+
+All variances should be interpreted in this context.
 
 ## Data Source
 - Financial data: [yfinance](https://github.com/ranaroussi/yfinance) — Unilever PLC (ULVR.L)
